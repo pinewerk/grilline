@@ -1,0 +1,1063 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>GrillStory</title>
+<meta name="description" content="GrillStory: газовые гриль-столы Атрио и очаги Аурен. Три размера, шесть цветов каркаса, четыре породы дерева.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;800&display=swap">
+<style>
+/* Layout: галерейная подача как в каталоге мебели — огромные строчные названия моделей (Geist 800) против тонкого текста 300, мелкие подписи и ссылки «+», товар без фона на тёплом сером; движение привязано к скроллу */
+:root{
+  --bg:#edede9; --bg-2:#e4e4df; --card:#ffffff; --line:#d6d6cc;
+  --ink:#1f1f1d; --muted:#6b6b69; --olive:#a6a974; --olive-2:#c4c792; --on-olive:#1f1f1d;
+  --night:#1c1c1a; --night-2:#262623; --night-ink:#edede9; --night-muted:#a6a69f; --night-line:#3a3a36;
+  --fire:#ff8a2b;
+  --font:"Geist", Arial, "Helvetica Neue", sans-serif;
+  --r-sm:5px; --r-lg:30px;
+  --gut:clamp(16px,4vw,56px); --maxw:1360px; --hdr:64px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#171715; --bg-2:#1e1e1c; --card:#22221f; --line:#34342f;
+  --ink:#edede9; --muted:#a3a39c; --olive:#b3b67f; --olive-2:#c9cc98; --on-olive:#1f1f1d;
+  --night:#0e0e0d; --night-2:#1b1b19; --night-ink:#edede9; --night-muted:#a3a39c; --night-line:#2f2f2b;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#171715; --bg-2:#1e1e1c; --card:#22221f; --line:#34342f;
+  --ink:#edede9; --muted:#a3a39c; --olive:#b3b67f; --olive-2:#c9cc98; --on-olive:#1f1f1d;
+  --night:#0e0e0d; --night-2:#1b1b19; --night-ink:#edede9; --night-muted:#a3a39c; --night-line:#2f2f2b;
+  color-scheme:dark }
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:var(--hdr)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-weight:300;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img,canvas{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-weight:300;margin:0;text-wrap:balance}
+p{margin:0}
+button{font-family:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gut)}
+.tiny{font-size:12px;font-weight:400;letter-spacing:.01em}
+.label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.muted{color:var(--muted)}
+.mega{font-weight:800;letter-spacing:-.065em;line-height:.8;text-transform:lowercase}
+.h2{font-size:clamp(34px,4.6vw,64px);line-height:1;letter-spacing:-.035em}
+.lead{font-size:clamp(16px,1.4vw,19px);line-height:1.45;max-width:52ch}
+section{padding-block:clamp(72px,10vw,140px)}
+.more{display:inline-flex;gap:6px;align-items:baseline;font-weight:500;font-size:15px;text-decoration:none;letter-spacing:-.01em;border:0;background:none;color:inherit;padding:0;cursor:pointer}
+.more::after{content:"+";transition:transform .3s}
+.more:hover::after{transform:rotate(90deg)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:50px;padding:0 26px;border-radius:var(--r-sm);font:500 13px/1 var(--font);letter-spacing:.03em;text-transform:uppercase;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s,border-color .2s}
+.btn-olive{background:var(--olive);color:var(--on-olive)}
+.btn-olive:hover{background:var(--olive-2)}
+.btn-ghost{border-color:currentColor;background:transparent;color:inherit}
+:focus-visible{outline:2px solid var(--olive);outline-offset:3px}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px 48px;align-items:end;margin-bottom:clamp(40px,5vw,72px)}
+.sec-head .tiny{grid-column:1/-1;color:var(--muted)}
+@media (max-width:820px){.sec-head{grid-template-columns:1fr}}
+
+/* header */
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;height:var(--hdr);background:color-mix(in srgb,var(--bg) 84%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.hdr .wrap{height:100%;display:flex;align-items:center;gap:40px}
+.brand{font-size:24px;letter-spacing:-.05em;text-decoration:none;line-height:1}
+.brand b{font-weight:800}
+.brand span{font-weight:300}
+.nav{display:flex;gap:4px;align-items:center}
+.nav a{text-decoration:none;font-weight:500;font-size:14px;letter-spacing:-.01em;padding:8px 14px;border-radius:30px;color:var(--muted);transition:background .2s,color .2s;white-space:nowrap}
+.nav a.on{background:var(--ink);color:var(--bg)}
+.nav a:hover{color:var(--ink)}
+.nav a.on:hover{color:var(--bg)}
+.hdr-r{margin-left:auto;display:flex;align-items:center;gap:28px}
+.hdr-r a{text-decoration:none;font-size:14px;font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
+@media (max-width:1100px){.hdr{height:auto}.hdr .wrap{flex-wrap:wrap;row-gap:0;padding-top:10px}.hdr-r{order:1}.nav{order:2;width:calc(100% + 2*var(--gut));margin:6px calc(-1*var(--gut)) 0;padding:0 var(--gut) 10px;overflow-x:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}:root{--hdr:108px}}
+@media (max-width:520px){.hdr-tel{display:none}}
+
+/* hero */
+.hero{padding:0;position:relative}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;padding-top:clamp(28px,5vw,64px);position:relative;z-index:2}
+.hero-kicker{grid-column:1/-1;color:var(--muted)}
+.hero h1{font-size:clamp(104px,21vw,330px);margin:clamp(10px,2vw,24px) 0 0 -0.04em;position:relative;display:inline-block}
+.hero h1 .ch{display:inline-block;animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero h1 .ch:nth-child(2){animation-delay:.06s}.hero h1 .ch:nth-child(3){animation-delay:.12s}.hero h1 .ch:nth-child(4){animation-delay:.18s}.hero h1 .ch:nth-child(5){animation-delay:.24s}
+@keyframes rise{from{transform:translateY(.35em);opacity:0}to{transform:none;opacity:1}}
+.hero h1 sup{position:absolute;top:.06em;right:-2.6em;font-size:max(13px,.07em);font-weight:500;letter-spacing:0;line-height:1.2;text-transform:none;width:5em}
+.hero-side{display:grid;gap:18px;align-content:start;padding-top:clamp(20px,6vw,110px)}
+.bars{display:flex;gap:10px;align-items:center;position:relative;height:74px;padding-left:18px}
+.bar{width:36px;height:8px;border:0;padding:0;cursor:pointer;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.bars .ring{position:absolute;top:50%;left:0;width:74px;height:74px;border-radius:50%;border:1px solid var(--muted);transform:translate(var(--rx,0px),-50%);transition:transform .5s cubic-bezier(.3,.7,.2,1);pointer-events:none;opacity:.6}
+.hero-side p{font-size:14px;color:var(--muted);max-width:28ch}
+.hero-note{display:grid;gap:12px;max-width:340px;margin-top:clamp(18px,3vw,36px)}
+.hero-note p{font-size:14px;color:var(--muted)}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr}.hero h1 sup{display:none}.hero-side{padding-top:0;grid-row:auto}}
+
+.reveal{height:180vh;margin-top:clamp(16px,3vw,40px);position:relative;z-index:1}
+.reveal-sticky{position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));overflow:hidden}
+.reveal-frame{position:absolute;inset:0;clip-path:inset(calc((1 - var(--p,0)) * 9%) calc((1 - var(--p,0)) * max(var(--gut),4vw)) calc((1 - var(--p,0)) * 4%) round calc((1 - var(--p,0)) * 30px));background:#2a2a27}
+.reveal-frame img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;transform:scale(calc(1.14 - .14 * var(--p,0)));transform-origin:50% 60%}
+.reveal-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(12,12,11,.62),rgba(12,12,11,0) 45%)}
+.reveal-cap{position:absolute;left:0;right:0;bottom:0;z-index:2;color:#f5f5f1;padding-bottom:clamp(28px,7vh,72px);opacity:calc(.35 + var(--p,0))}
+.reveal-cap .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.reveal-cap h2{font-size:clamp(36px,6vw,92px);line-height:.95;letter-spacing:-.045em;font-weight:300;transform:translateY(calc((1 - var(--p,0)) * 40px))}
+.reveal-cap h2 b{font-weight:800}
+.reveal-cap p{max-width:34ch;font-size:15px;color:rgba(245,245,241,.85)}
+@media (max-width:700px){.reveal{height:140vh}}
+
+/* idea */
+.idea{overflow:hidden}
+.marquee{white-space:nowrap;font-size:clamp(72px,13vw,210px);color:transparent;-webkit-text-stroke:1px var(--line);transform:translateX(calc(-30% * var(--q,0) + 5%));pointer-events:none;user-select:none;line-height:.9}
+.idea-stage{position:relative;margin-top:clamp(-150px,-9vw,-60px);max-width:1180px;margin-inline:auto;transform:translateX(calc((1 - var(--q2,1)) * 12%))}
+.idea-stage img{width:100%;height:auto}
+.hot{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;border:0;background:var(--olive);color:var(--on-olive);font:500 13px/30px var(--font);text-align:center;cursor:pointer;box-shadow:0 0 0 0 rgba(166,169,116,.6);animation:pulse 2.4s infinite;transition:transform .25s}
+.hot.on,.hot:hover{transform:scale(1.25)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(166,169,116,.55)}70%{box-shadow:0 0 0 16px rgba(166,169,116,0)}100%{box-shadow:0 0 0 0 rgba(166,169,116,0)}}
+.feats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;margin-top:clamp(28px,4vw,56px)}
+.feat{display:grid;gap:8px;padding-top:16px;border-top:1px solid var(--line);transition:border-color .3s}
+.feat .n{font-size:12px;font-weight:500;color:var(--muted)}
+.feat h3{font-size:19px;font-weight:400;letter-spacing:-.01em}
+.feat p{font-size:14px;color:var(--muted)}
+.feat.on{border-color:var(--ink)}
+@media (max-width:900px){.feats{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.feats{grid-template-columns:1fr}.hot{width:24px;height:24px;margin:-12px 0 0 -12px;line-height:24px;font-size:11px}}
+.idea-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 48px;align-items:end}
+@media (max-width:820px){.idea-head{grid-template-columns:1fr}}
+
+/* configurator */
+.cfg{background:var(--card)}
+.cfg-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);gap:clamp(24px,4vw,64px);align-items:start}
+@media (max-width:980px){.cfg-grid{grid-template-columns:1fr}}
+.stage{position:sticky;top:calc(var(--hdr) + 20px);background:var(--bg);border-radius:var(--r-lg);padding:clamp(18px,3vw,40px);overflow:hidden}
+@media (max-width:980px){.stage{position:static}}
+.stage-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;position:relative;z-index:2}
+.stage-big{position:relative;height:clamp(90px,13vw,200px);margin-top:4px}
+.stage-big .mega{font-size:clamp(96px,15vw,230px);color:var(--line);position:absolute;left:-.04em;top:0;font-variant-numeric:tabular-nums;transition:color .3s}
+.stage-big sup{position:absolute;top:10px;left:calc(var(--w,0px) + 8px);font-size:13px;font-weight:500}
+.render{position:relative;margin-top:clamp(-110px,-7vw,-40px);z-index:1}
+.render canvas{width:100%;height:auto}
+.render canvas.fade{animation:fadein .45s ease}
+@keyframes fadein{from{opacity:.25;transform:translateY(6px)}to{opacity:1;transform:none}}
+.scale{display:grid;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.scale-row{display:grid;grid-template-columns:52px minmax(0,1fr) 64px;gap:12px;align-items:center;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;cursor:pointer;background:none;border:0;padding:0;text-align:left;font-family:inherit}
+.scale-row .track{height:6px;background:var(--line);border-radius:3px;position:relative}
+.scale-row .fill{position:absolute;inset:0 auto 0 0;border-radius:3px;background:var(--line)}
+.scale-row.on{color:var(--ink)}
+.scale-row.on .fill{background:var(--ink)}
+.stage-specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:22px}
+.stage-specs div{font-size:12px;color:var(--muted)}
+.stage-specs b{display:block;font-size:20px;font-weight:300;color:var(--ink);font-variant-numeric:tabular-nums}
+@media (max-width:520px){.stage-specs{grid-template-columns:1fr 1fr}}
+.opt{padding:24px 0;border-bottom:1px solid var(--line)}
+.opt:first-child{padding-top:0}
+.opt-h{display:flex;justify-content:space-between;gap:12px;margin-bottom:14px}
+.opt-h .val{font-size:14px}
+.sizes{display:grid;gap:8px}
+.size-btn{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 12px;text-align:left;padding:14px 18px;border-radius:var(--r-sm);border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;transition:border-color .2s,background .2s}
+.size-btn:hover{border-color:var(--muted)}
+.size-btn[aria-pressed="true"]{border-color:var(--ink);background:var(--bg)}
+.size-btn .mm{font-size:28px;font-weight:300;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.size-btn .mm small{font-size:12px;color:var(--muted);margin-left:4px}
+.size-btn .seats{font-size:13px;color:var(--muted);text-align:right}
+.size-btn .mods{font-size:12px;color:var(--muted)}
+.swatches{display:flex;flex-wrap:wrap;gap:12px}
+.sw{width:50px;height:50px;border-radius:50%;border:1px solid var(--line);cursor:pointer;padding:0;position:relative;background:var(--c)}
+.sw::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid transparent;transition:border-color .2s}
+.sw[aria-pressed="true"]::after{border-color:var(--ink)}
+.sw.wood{background:repeating-linear-gradient(100deg,rgba(0,0,0,.08) 0 2px,transparent 2px 7px),var(--c)}
+.sw .new{position:absolute;top:-8px;right:-10px;font-size:9px;font-weight:500;background:var(--olive);color:var(--on-olive);border-radius:8px;padding:1px 5px;letter-spacing:.04em}
+.cfg-note{font-size:12px;color:var(--muted);margin-top:16px}
+.cfg-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+
+/* details: sticky lens */
+.det{padding:0}
+.det-track{height:320vh;position:relative}
+.det-sticky{position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));display:flex;align-items:center;overflow:hidden}
+.det-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(24px,5vw,80px);align-items:center;width:100%}
+.det-count{display:flex;align-items:flex-start;gap:6px;margin:clamp(20px,4vh,48px) 0 clamp(12px,3vh,28px)}
+.det-count .mega{font-size:clamp(90px,11vw,170px);font-variant-numeric:tabular-nums}
+.det-count span{font-weight:500;font-size:14px;margin-top:10px;color:var(--muted)}
+.det-items{position:relative;min-height:150px}
+.det-item{position:absolute;inset:0;opacity:0;transform:translateY(16px);transition:opacity .45s,transform .45s}
+.det-item.on{opacity:1;transform:none}
+.det-item h3{font-size:clamp(26px,2.6vw,36px);letter-spacing:-.02em;margin-bottom:12px}
+.det-item p{color:var(--muted);max-width:38ch}
+.det-item img{display:none}
+.det-prog{display:flex;gap:8px;margin-top:28px}
+.det-prog i{width:28px;height:2px;background:var(--line);transition:background .3s}
+.det-prog i.on{background:var(--ink)}
+.lens{position:relative;aspect-ratio:1/1;width:min(100%,calc(100vh - var(--hdr) - 120px));justify-self:center}
+.lens img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;clip-path:circle(var(--c,0%) at 50% 50%);transform:scale(var(--s,1.2));transition:none}
+.lens::before{content:"";position:absolute;inset:-18px;border-radius:50%;border:1px solid var(--line)}
+.lens-tag{position:absolute;right:4%;bottom:6%;background:var(--card);border-radius:30px;padding:8px 14px;font-size:12px;font-weight:500;z-index:3}
+@media (max-width:900px){
+  .det{padding-block:72px}
+  .det-track{height:auto}.det-sticky{position:static;height:auto;display:block}
+  .det-grid{grid-template-columns:1fr}.lens,.det-count,.det-prog{display:none}
+  .det-items{min-height:0;display:grid;gap:36px;margin-top:32px}
+  .det-item{position:static;opacity:1;transform:none;display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;align-items:center}
+  .det-item img{display:block;width:120px;height:120px;border-radius:50%;object-fit:cover}
+}
+.climate{margin-top:clamp(40px,6vw,96px);background:var(--bg-2);border-radius:var(--r-lg);padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:32px}
+.climate h3{font-size:clamp(24px,2.6vw,32px);letter-spacing:-.02em}
+.climate .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.climate .step{border-top:1px solid var(--muted);padding-top:14px}
+.climate .step b{display:block;font-weight:400;font-size:17px;margin:8px 0 6px}
+.climate .step p{font-size:14px;color:var(--muted)}
+@media (max-width:820px){.climate{grid-template-columns:1fr}.climate .steps{grid-template-columns:1fr}}
+
+/* accessories */
+.acc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,28px)}
+.acc-card{background:var(--card);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column}
+.acc-card figure{margin:0;background:#fff;aspect-ratio:1/1;display:grid;place-items:center;padding:6%}
+.acc-card figure img{max-height:100%;object-fit:contain;transition:transform .5s}
+.acc-card:hover figure img{transform:scale(1.04)}
+.acc-body{padding:22px 24px 26px;display:grid;gap:10px;border-top:1px solid var(--line)}
+.acc-body h3{font-size:24px;letter-spacing:-.01em}
+.acc-body .dim{font-size:14px;font-variant-numeric:tabular-nums}
+.acc-body ul{margin:4px 0 0;padding:0;list-style:none;font-size:14px;color:var(--muted);display:grid;gap:4px}
+@media (max-width:900px){.acc{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.acc{grid-template-columns:1fr}}
+
+/* auren */
+.auren{background:var(--night);color:var(--night-ink);overflow:hidden}
+.auren .muted,.auren .sub{color:var(--night-muted)}
+.auren-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.auren-top .mega{font-size:clamp(96px,17vw,270px)}
+.fire-wrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:center;margin-top:clamp(8px,2vw,24px)}
+@media (max-width:900px){.fire-wrap{grid-template-columns:1fr}}
+.fire-stage{position:relative}
+.fire-stage img{width:100%;height:auto}
+.fire-stage .lit{position:absolute;inset:0;opacity:var(--f,0)}
+.fire-glow{position:absolute;left:50%;top:6%;width:80%;aspect-ratio:2/1;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(255,140,50,.45),rgba(255,110,30,.12) 55%,rgba(255,110,30,0));opacity:var(--f,0);pointer-events:none;filter:blur(6px)}
+.fire-stage canvas{position:absolute;left:0;top:-40%;width:100%;height:80%;pointer-events:none}
+.fire-hint{margin-top:14px;font-size:12px;color:var(--night-muted)}
+.spec{border-top:1px solid var(--night-line);margin:24px 0 0}
+.spec div{display:grid;grid-template-columns:130px minmax(0,1fr);gap:16px;padding:13px 0;border-bottom:1px solid var(--night-line);font-size:15px}
+.spec dt{color:var(--night-muted)}
+.spec dd{margin:0}
+.pits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2vw,24px);margin-top:clamp(56px,7vw,96px)}
+.pit{background:var(--night-2);border-radius:var(--r-lg);padding:28px 24px;display:grid;gap:14px;justify-items:center;text-align:center}
+.pit svg{width:min(100%,210px);height:auto}
+.pit h3{font-size:22px}
+.pit p{font-size:13px;color:var(--night-muted)}
+@media (max-width:760px){.pits{grid-template-columns:1fr}}
+
+.stool{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.3fr) minmax(0,.9fr);gap:clamp(16px,3vw,40px);margin-top:clamp(56px,7vw,96px);align-items:center}
+.stool .txt{display:grid;gap:14px}
+.stool h3{font-size:clamp(28px,3vw,40px);letter-spacing:-.02em}
+.viewer{background:var(--night-2);border-radius:var(--r-lg);padding:clamp(16px,2vw,28px);position:relative;touch-action:pan-y;cursor:grab;user-select:none}
+.viewer-stage{position:relative;aspect-ratio:4/3}
+.viewer-stage img{position:absolute;inset:8% 6%;width:88%;height:84%;object-fit:contain;opacity:0;transform:scale(.96) translateX(12px);transition:opacity .5s,transform .6s cubic-bezier(.3,.7,.2,1);filter:drop-shadow(0 18px 18px rgba(0,0,0,.25))}
+.viewer-stage img.on{opacity:1;transform:none}
+.views{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.views button{background:transparent;border:1px solid var(--night-line);color:var(--night-ink);border-radius:30px;padding:8px 14px;font-size:12px;font-weight:500;cursor:pointer}
+.views button[aria-pressed="true"]{background:var(--night-ink);color:var(--night)}
+.viewer .deg{position:absolute;top:18px;left:22px;font-size:12px;color:var(--night-muted);font-variant-numeric:tabular-nums}
+.stool figure{margin:0;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:3/4}
+.stool figure img{width:100%;height:100%;object-fit:cover}
+@media (max-width:900px){.stool{grid-template-columns:1fr 1fr}.stool .txt{grid-column:1/-1}}
+@media (max-width:560px){.stool{grid-template-columns:1fr}}
+
+/* partners */
+.tabs{display:inline-flex;gap:4px;padding:4px;border-radius:40px;background:var(--bg-2);margin-bottom:clamp(28px,4vw,48px);flex-wrap:wrap}
+.tabs button{border:0;background:transparent;color:var(--ink);padding:12px 22px;border-radius:40px;font-size:14px;font-weight:500;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.panel{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);gap:clamp(28px,5vw,80px)}
+@media (max-width:900px){.panel{grid-template-columns:1fr}}
+.panel-l{display:grid;gap:18px;align-content:start}
+.panel-l .mega{font-size:clamp(60px,7.4vw,112px);padding-bottom:.18em}
+.perks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--line)}
+.perk{padding:22px 22px 22px 0;border-bottom:1px solid var(--line);display:grid;gap:8px;align-content:start}
+.perk:not(:nth-child(3n+1)){padding-left:22px;border-left:1px solid var(--line)}
+.perk b{font-weight:400;font-size:17px}
+.perk p{font-size:14px;color:var(--muted)}
+@media (max-width:700px){.perks{grid-template-columns:1fr 1fr}.perk:not(:nth-child(3n+1)){padding-left:0;border-left:0}.perk:nth-child(2n){padding-left:18px;border-left:1px solid var(--line)}}
+@media (max-width:460px){.perks{grid-template-columns:1fr}.perk:nth-child(2n){padding-left:0;border-left:0}}
+
+/* process + faq */
+ol.proc{margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
+.proc li{list-style:none;padding:24px 24px 0 0}
+.proc li + li{padding-left:24px;border-left:1px solid var(--line)}
+.proc .n{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.proc b{display:block;font-weight:400;font-size:19px;margin:14px 0 8px}
+.proc p{font-size:14px;color:var(--muted)}
+@media (max-width:860px){ol.proc{grid-template-columns:1fr 1fr}.proc li:nth-child(3){padding-left:0;border-left:0}.proc li{padding-bottom:24px}}
+@media (max-width:480px){ol.proc{grid-template-columns:1fr}.proc li,.proc li + li{padding-left:0;border-left:0;border-bottom:1px solid var(--line)}}
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:24px;padding:22px 0;font-size:clamp(17px,1.6vw,21px)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:24px;line-height:1;transition:transform .25s;color:var(--muted)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 0 24px;color:var(--muted);max-width:70ch}
+
+/* contact */
+.contact{background:var(--card)}
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,80px)}
+@media (max-width:860px){.contact-grid{grid-template-columns:1fr}}
+.big-tel{font-size:clamp(30px,3.6vw,48px);letter-spacing:-.02em;text-decoration:none;font-variant-numeric:tabular-nums}
+.c-list{display:grid;gap:14px;margin-top:28px;font-size:17px}
+.c-list .label{display:block;color:var(--muted);margin-bottom:2px}
+form{display:grid;gap:14px}
+.field{display:grid;gap:6px}
+.field label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.field input,.field textarea,.field select{font:300 16px/1.4 var(--font);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:13px 14px;width:100%}
+.field textarea{min-height:110px;resize:vertical}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--ink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:520px){.row2{grid-template-columns:1fr}}
+.form-note{font-size:12px;color:var(--muted)}
+.done{background:var(--bg);border-radius:var(--r-sm);padding:18px;display:grid;gap:12px;font-size:15px}
+.done pre{margin:0;white-space:pre-wrap;font:inherit;font-size:14px;color:var(--muted)}
+.err{color:#c0532f;font-size:13px}
+footer{background:var(--night);color:var(--night-muted);padding-block:48px;font-size:13px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;align-items:flex-end}
+footer .brand{color:var(--night-ink);font-size:40px}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+/* v3 additions */
+:root{--olive-ink:#6c6f43}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--olive-ink:#b3b67f}}
+:root[data-theme="dark"]{--olive-ink:#b3b67f}
+.hero-side .from{font-weight:800;font-size:clamp(36px,4vw,56px);letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
+.hero-photo{position:relative;margin:clamp(20px,4vw,48px) 0 0;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:16/9;background:#2a2a27}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 45%}
+.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(12,12,11,.6),rgba(12,12,11,0) 50%)}
+.hp-cap{position:absolute;left:0;right:0;bottom:0;z-index:2;color:#f5f5f1;padding:clamp(20px,4vw,48px);display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.hp-cap h2{font-size:clamp(30px,5vw,80px);line-height:.95;letter-spacing:-.045em;font-weight:300}
+.hp-cap h2 b{font-weight:800}
+.hp-cap p{max-width:34ch;font-size:15px;color:rgba(245,245,241,.88)}
+@media (max-width:700px){.hero-photo{aspect-ratio:4/5}.hp-cap p{display:none}}
+.idea-photo{position:relative;z-index:1;margin:clamp(-150px,-9vw,-60px) 0 0;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:16/9}
+.idea-photo img{width:100%;height:100%;object-fit:cover}
+@media (max-width:700px){.idea-photo{aspect-ratio:4/3}}
+.size-btn .sp{grid-column:1/-1;font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;margin-top:4px}
+.sw .tag{position:absolute;top:-9px;right:-12px;font-size:9px;font-weight:500;background:var(--ink);color:var(--bg);border-radius:8px;padding:1px 5px}
+.kit{display:grid;gap:10px}
+.kit-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;font-size:15px;padding:10px 0}
+.kit-row input{width:20px;height:20px;accent-color:var(--ink);margin:0}
+.kit-row .kn{grid-column:1/3}
+.kit-row .kp{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
+.kit-row:has(.stepper){grid-template-columns:minmax(0,1fr) auto auto}
+.kit-row:has(.stepper) .kn{grid-column:auto}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:30px}
+.stepper button{width:34px;height:34px;border:0;background:transparent;color:var(--ink);font-size:18px;cursor:pointer;border-radius:50%}
+.stepper output{min-width:26px;text-align:center;font-variant-numeric:tabular-nums}
+.total{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;padding:22px 0 0}
+.total b{display:block;font-weight:300;font-size:22px;font-variant-numeric:tabular-nums}
+.total b.big{font-weight:800;font-size:clamp(30px,3vw,40px);letter-spacing:-.04em}
+.acc-price{font-size:22px;font-weight:500;letter-spacing:-.01em;margin-top:6px;font-variant-numeric:tabular-nums}
+.acc-price.muted{font-size:15px;font-weight:400}
+.pit-photo{margin:0;border-radius:var(--r-lg);overflow:hidden}
+.pit-photo img{width:100%;height:auto}
+.pit-gal{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(10px,1.5vw,18px);margin-top:clamp(28px,4vw,48px)}
+.pit-gal figure{margin:0;border-radius:18px;overflow:hidden;background:#eeeeea;position:relative;grid-column:span 2;aspect-ratio:3/2}
+.pit-gal figure img{width:100%;height:100%;object-fit:cover}
+.pit-gal .pg-dim{grid-column:span 4;aspect-ratio:auto}
+.pit-gal .pg-dim img{object-fit:contain}
+.pit-gal .pg-top{aspect-ratio:auto}
+.pit-gal figcaption{position:absolute;left:12px;bottom:10px;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:#1f1f1d;background:rgba(238,238,234,.88);padding:5px 9px;border-radius:20px}
+@media (max-width:700px){.pit-gal{grid-template-columns:1fr 1fr}.pit-gal figure,.pit-gal .pg-dim{grid-column:span 1}.pit-gal .pg-dim{grid-column:1/-1}}
+.viewer{background:#ecece8;color:#1f1f1d}
+.viewer .deg{color:#6b6b69}
+.viewer-stage img{filter:drop-shadow(0 14px 14px rgba(0,0,0,.12))}
+.views button{border-color:#c9c9c0;color:#1f1f1d}
+.views button[aria-pressed="true"]{background:#1f1f1d;color:#ecece8}
+.plist{border-top:1px solid var(--line)}
+.pl-h{font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--olive-ink);padding:34px 0 10px}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr) auto;gap:24px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.pl-row img{height:84px;width:auto;max-width:170px;object-fit:contain}
+.pl-ph{display:block;height:2px}
+.pl-row b{display:block;font-weight:400;font-size:19px}
+.pl-row span{font-size:13px;color:var(--muted)}
+.pl-row strong{font-weight:800;font-size:clamp(20px,2.2vw,28px);letter-spacing:-.03em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pl-row strong.muted{font-weight:400;font-size:15px;letter-spacing:0}
+@media (max-width:600px){.pl-row{grid-template-columns:80px minmax(0,1fr);gap:6px 14px}.pl-row img{height:50px}.pl-row strong{grid-column:2}}
+:root[data-theme="dark"] .pl-row img{filter:invert(.92)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pl-row img{filter:invert(.92)}}
+.pit-price{font-weight:800;font-size:clamp(24px,2.4vw,32px);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.pit-feat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2vw,24px);margin-top:clamp(36px,5vw,64px)}
+.pit-feat article{display:grid;gap:10px;align-content:start;padding-top:18px;border-top:1px solid var(--night-line)}
+.pit-feat figure{margin:0 0 10px;border-radius:50%;overflow:hidden;width:min(100%,220px);aspect-ratio:1/1;background:#eeeeea}
+.pit-feat figure img{width:100%;height:100%;object-fit:cover;transform:scale(1.15);transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.pit-feat article:hover figure img{transform:scale(1.35)}
+.pit-feat .pf-n{font-weight:800;font-size:clamp(34px,4vw,56px);letter-spacing:-.05em;line-height:.9;color:var(--night-line)}
+.pit-feat h4{margin:0;font-weight:400;font-size:20px}
+.pit-feat p{font-size:14px;color:var(--night-muted);max-width:34ch}
+@media (max-width:760px){.pit-feat{grid-template-columns:1fr}.pit-feat article{grid-template-columns:110px minmax(0,1fr);column-gap:18px}.pit-feat figure{grid-row:span 4;width:110px}.pit-feat .pf-n{font-size:30px}}
+
+/* v5 */
+.hero-full{position:relative;display:flex;align-items:stretch;min-height:clamp(600px,calc(100svh - var(--hdr)),940px);color:#f5f5f1;overflow:hidden;background:#2a2a27;padding:0}
+.hf-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;animation:kb 18s ease-out both}
+@keyframes kb{from{transform:scale(1.08)}to{transform:scale(1)}}
+.hf-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,12,11,.62) 0%,rgba(12,12,11,.15) 38%,rgba(12,12,11,.25) 60%,rgba(12,12,11,.8) 100%)}
+.hf-grid{position:relative;z-index:2;width:100%;display:flex;flex-direction:column;padding-block:clamp(24px,4vw,48px) clamp(28px,5vw,56px)}
+.hf-kicker{color:rgba(245,245,241,.8)}
+.hero-full h1{font-size:clamp(96px,19vw,300px);margin:clamp(8px,2vw,20px) 0 0 -.04em;color:#f5f5f1;position:relative;display:inline-block;align-self:flex-start}
+.hero-full h1 sup{color:#f5f5f1}
+.hf-bottom{margin-top:auto;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:24px 48px;align-items:end;padding-top:32px}
+.hf-slogan{font-size:clamp(30px,4.4vw,64px);line-height:.98;letter-spacing:-.04em;font-weight:300}
+.hf-slogan b{font-weight:800}
+.hf-note p{margin-top:16px;max-width:46ch;font-size:15px;color:rgba(245,245,241,.86)}
+.hf-side{display:grid;gap:10px;justify-items:start}
+.hf-side .tiny{color:rgba(245,245,241,.75)}
+.hf-side .from{font-weight:800;font-size:clamp(34px,3.6vw,52px);letter-spacing:-.045em;line-height:1}
+.hf-side p{font-size:14px;color:rgba(245,245,241,.82);max-width:30ch}
+.hf-side .btn{margin-top:6px}
+@media (max-width:820px){.hf-bottom{grid-template-columns:1fr}.hero-full h1 sup{display:none}}
+.idea-photo.info{aspect-ratio:1672/941}
+.info-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.tag-i{position:absolute;transform:translate(-50%,-50%);background:rgba(245,245,241,.92);color:#1f1f1d;font-size:13px;font-weight:500;padding:7px 12px;border-radius:30px;white-space:nowrap;display:inline-flex;gap:8px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+.tag-i i{font-style:normal;width:20px;height:20px;border-radius:50%;background:#a6a974;display:grid;place-items:center;font-size:11px}
+.tag-i b{font-weight:800}
+.info-legend{display:none}
+@media (max-width:760px){.tag-i{font-size:0;padding:4px;gap:0}.tag-i i{font-size:11px}.tag-i:not(:has(i)){display:none}
+  .info-legend{display:grid;gap:6px;margin:16px 0 0;padding-left:22px;font-size:14px;color:var(--muted)}}
+.opt-note{font-size:13px;color:var(--muted);margin-top:14px}
+.kit-icons{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;min-height:0;margin-top:6px}
+.kit-icons .ki{display:grid;justify-items:center;gap:4px;font-size:11px;color:var(--muted);animation:pop .35s cubic-bezier(.3,1.4,.5,1) both}
+.kit-icons img{height:46px;width:auto}
+.kit-icons:not(:empty){padding-top:4px}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+:root[data-theme="dark"] .kit-icons img{filter:invert(.92)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kit-icons img{filter:invert(.92)}}
+.pit-eve{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:center;margin-top:clamp(56px,7vw,96px)}
+.pit-eve figure{margin:0;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/5}
+.pit-eve figure img{width:100%;height:100%;object-fit:cover}
+.eve-txt{display:grid;gap:16px}
+.eve-txt h3{font-size:clamp(28px,3.2vw,44px);letter-spacing:-.03em;line-height:1.05}
+.eve-stats{margin:12px 0 0;display:grid;gap:0;border-top:1px solid var(--night-line)}
+.eve-stats div{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--night-line)}
+.eve-stats dt{font-weight:800;font-size:clamp(36px,4vw,56px);letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums}
+.eve-stats dt small{font-size:13px;font-weight:500;letter-spacing:0;margin-left:4px;color:var(--night-muted)}
+.eve-stats dd{margin:0;font-size:14px;color:var(--night-muted)}
+@media (max-width:860px){.pit-eve{grid-template-columns:1fr}.eve-stats div{grid-template-columns:110px minmax(0,1fr)}}
+.pits-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-top:clamp(56px,7vw,96px)}
+.pits-head + .pits{margin-top:28px}
+.viewer{background:radial-gradient(ellipse 70% 60% at 50% 52%,#8a857c 0%,#55514b 45%,#2c2a27 85%);color:#edede9}
+.viewer .deg{color:#cfcbc2}
+.viewer-stage img{filter:drop-shadow(0 22px 18px rgba(0,0,0,.45))}
+.views button{border-color:rgba(237,237,233,.35);color:#edede9}
+.views button[aria-pressed="true"]{background:#edede9;color:#1f1f1d}
+.gal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:clamp(160px,17vw,250px);grid-auto-flow:dense;gap:clamp(10px,1.4vw,18px)}
+.g{position:relative;border:0;padding:0;border-radius:20px;overflow:hidden;cursor:zoom-in;background:var(--bg-2)}
+.g img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.g:hover img{transform:scale(1.05)}
+.g span{position:absolute;left:12px;bottom:12px;background:rgba(245,245,241,.92);color:#1f1f1d;font-size:12px;font-weight:500;padding:6px 11px;border-radius:30px;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s}
+.g:hover span,.g:focus-visible span{opacity:1;transform:none}
+.g-w{grid-column:span 2}.g-t{grid-row:span 2}
+@media (max-width:760px){.gal{grid-template-columns:1fr 1fr;grid-auto-rows:150px}.g span{opacity:1;transform:none;font-size:11px}}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(10,10,9,.92);display:grid;place-items:center;padding:24px;gap:12px;align-content:center}
+.lb img{max-width:min(1200px,100%);max-height:80vh;border-radius:12px}
+.lb p{color:#edede9;font-size:14px;text-align:center}
+.lb-x{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:18px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(237,237,233,.4);background:transparent;color:#edede9;font-size:24px;cursor:pointer}
+.vid{background:var(--card)}
+.vid-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(28px,5vw,80px);align-items:center}
+.vid-list{margin:24px 0 0;padding:0;list-style:none;display:grid;border-top:1px solid var(--line)}
+.vid-list li{padding:14px 0;border-bottom:1px solid var(--line);font-size:16px}
+.vid-frame{justify-self:center;width:min(100%,380px);aspect-ratio:9/16;border-radius:28px;overflow:hidden;background:#111;box-shadow:0 30px 60px rgba(0,0,0,.18)}
+.vid-frame video{width:100%;height:100%;object-fit:cover;display:block}
+@media (max-width:820px){.vid-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.hf-img{animation:none}}
+
+/* v6 */
+.kit-icons{align-items:center}
+.kplus{font-size:22px;font-weight:300;color:var(--muted);align-self:center;margin-bottom:16px}
+.vid{background:var(--night);color:var(--night-ink);position:relative;overflow:hidden}
+.vid .muted,.vid .sub{color:var(--night-muted)}
+.vid-bgword{position:absolute;right:-.04em;bottom:-.12em;font-size:clamp(140px,24vw,380px);color:transparent;-webkit-text-stroke:1px var(--night-line);pointer-events:none;line-height:.8;white-space:nowrap}
+.vid-grid{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px) minmax(0,.9fr);gap:clamp(24px,4vw,64px);align-items:center}
+.vid-txt{display:grid;gap:18px;align-content:center}
+.vid-facts{display:grid;gap:0;border-top:1px solid var(--night-line);margin-top:8px}
+.vid-facts div{display:grid;grid-template-columns:130px minmax(0,1fr);gap:14px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--night-line)}
+.vid-facts b{font-weight:800;font-size:28px;letter-spacing:-.04em}
+.vid-facts span{font-size:14px;color:var(--night-muted)}
+.vid-frame{justify-self:center;width:100%;aspect-ratio:9/16;border-radius:30px;overflow:hidden;background:#000;box-shadow:0 0 0 8px var(--night-2),0 40px 80px rgba(0,0,0,.45)}
+.vid-frame video{width:100%;height:100%;object-fit:cover;display:block}
+.chapters{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.chapters button{display:grid;grid-template-columns:72px minmax(0,1fr);gap:14px;align-items:center;width:100%;text-align:left;background:var(--night-2);border:1px solid transparent;border-radius:16px;padding:8px;color:var(--night-ink);cursor:pointer;transition:border-color .2s,background .2s}
+.chapters button:hover,.chapters button.on{border-color:var(--olive)}
+.chapters img{width:72px;height:72px;border-radius:10px;object-fit:cover}
+.chapters span{display:grid;gap:2px;font-size:15px}
+.chapters em{font-style:normal;font-size:12px;color:var(--olive);font-variant-numeric:tabular-nums;font-weight:500}
+@media (max-width:1000px){.vid-grid{grid-template-columns:minmax(0,1fr) minmax(0,320px)}.chapters{grid-column:1/-1;grid-template-columns:repeat(4,minmax(0,1fr))}.chapters button{grid-template-columns:1fr}.chapters img{width:100%;height:auto;aspect-ratio:1/1}}
+@media (max-width:640px){.vid-grid{grid-template-columns:1fr}.vid-frame{width:min(100%,340px)}.chapters{grid-template-columns:1fr 1fr}}
+</style>
+</head><body>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="GrillStory, на главную"><b>grill</b><span>story</span></a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#idea">атрио</a>
+      <a href="#config">конфигуратор</a>
+      <a href="#details">детали</a>
+      <a href="#accessories">аксессуары</a>
+      <a href="#auren">очаги</a>
+      <a href="#projects">проекты</a>
+      <a href="#video">видео</a>
+      <a href="#partners">партнёрам</a>
+      <a href="#contact">контакты</a>
+    </nav>
+    <div class="hdr-r">
+      <a class="hdr-tel" href="tel:+79668700960">+7 (966) 870-09-60</a>
+      <a class="more" href="#contact">рассчитать</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero hero-full" aria-label="Гриль-стол Атрио">
+    <img class="hf-img" src="hero-dinner.webp" alt="Четверо друзей ужинают за гриль-столом Атрио на террасе загородного дома, мясо и овощи жарятся на решётках в столешнице" fetchpriority="high">
+    <div class="hf-shade" aria-hidden="true"></div>
+    <div class="wrap hf-grid">
+      <p class="tiny hf-kicker">Газовый гриль-стол для террасы и сада. Сделано в Санкт-Петербурге.</p>
+      <h1 class="mega" aria-label="Атрио"><span class="ch">а</span><span class="ch">т</span><span class="ch">р</span><span class="ch">и</span><span class="ch">о</span><sup>3 размера<br>6–10 мест</sup></h1>
+      <div class="hf-bottom">
+        <div class="hf-note">
+          <h2 class="hf-slogan"><b>Готовим вместе.</b><br>Не вставая из-за стола.</h2>
+          <p>Столешница из термоясеня в стальной раме и гриль-модули по 5,3 кВт прямо между тарелками. Готовка становится частью разговора.</p>
+        </div>
+        <div class="hf-side">
+          <div class="tiny">Стоимость</div>
+          <div class="from">от 299 000 ₽</div>
+          <p>Три длины, шесть базовых цветов каркаса и четыре породы дерева.</p>
+          <a class="btn btn-olive" href="#config">Собрать и рассчитать</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="idea" class="idea">
+    <div class="wrap idea-head">
+      <div>
+        <p class="tiny muted">Как устроен Атрио</p>
+        <h2 class="h2" style="margin-top:14px">Огонь посередине.<br>Люди вокруг.</h2>
+      </div>
+      <p class="lead muted">Термоясень, сталь с порошковой окраской и решётки из нержавеющей стали. Всё управление под рукой, на столешнице только решётки и тарелки.</p>
+    </div>
+    <div class="marquee mega" id="marquee" aria-hidden="true">за одним столом · вокруг живого огня · за одним столом</div>
+    <div class="wrap">
+      <figure class="idea-photo info">
+        <img src="atrio-front.jpg" alt="Гриль-стол Атрио 2800 с тремя гриль-модулями на деревянной террасе, вид спереди" loading="lazy">
+        <svg class="info-lines" viewBox="0 0 1672 941" preserveAspectRatio="none" aria-hidden="true">
+          <g stroke="#f5f5f1" stroke-width="2" fill="none">
+            <path d="M300 200 H1405 M300 188 V212 M1405 188 V212"/>
+            <path d="M1478 238 V630 M1466 238 H1490 M1466 630 H1490"/>
+            <path d="M565 268 L420 120"/>
+            <path d="M1160 333 L1290 120"/>
+            <path d="M560 392 L560 488"/>
+          </g>
+          <g fill="#a6a974" stroke="#1f1f1d" stroke-width="2"><circle cx="565" cy="268" r="9"/><circle cx="1160" cy="333" r="9"/><circle cx="560" cy="392" r="9"/></g>
+        </svg>
+        <span class="tag-i" style="left:51%;top:15.5%">1600 / 2200 / 2800 мм</span>
+        <span class="tag-i" style="left:91%;top:46%"><b>740–800</b> мм</span>
+        <span class="tag-i" style="left:25%;top:10%"><i>1</i>Решётка 450 × 240 мм, нержавеющая сталь</span>
+        <span class="tag-i" style="left:77%;top:10%"><i>2</i>Регулятор с пьезорозжигом</span>
+        <span class="tag-i" style="left:33.5%;top:55%"><i>3</i>Газовый блок 5,3 кВт</span>
+      </figure>
+      <ol class="info-legend"><li>Решётка 450 × 240 мм, нержавеющая сталь</li><li>Регулятор с пьезорозжигом</li><li>Газовый блок 5,3 кВт под столешницей</li><li>Длина 1600 / 2200 / 2800 мм, высота 740–800 мм</li></ol>
+      <div class="feats">
+        <div class="feat"><h3>Своя зона жара</h3><p>У каждого модуля отдельный регулятор. На одной решётке стейк, на соседней овощи на слабом огне.</p></div>
+        <div class="feat"><h3>Газ вместо углей</h3><p>Пьезорозжиг поворотом ручки. Не нужно ждать углей, нет золы и едкого дыма в сторону гостей.</p></div>
+        <div class="feat"><h3>Сталь и термоясень</h3><p>Рама закрывает торцы досок и держит геометрию. Дерево термически модифицировано для улицы.</p></div>
+        <div class="feat"><h3>Стол на каждый день</h3><p>Когда гриль выключен, Атрио работает как обеденный стол для террасы на 6–10 человек.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="config" class="cfg">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="tiny">Конфигуратор</p>
+        <h2 class="h2">Ваш формат общения</h2>
+        <p class="lead muted">Один гриль-модуль — до 6 мест, два — до 8 мест, три — до 10 мест. Ширина у всех столов одна: 1100 мм. Выберите размер, цвет каркаса и древесину.</p>
+      </div>
+      <div class="cfg-grid">
+        <div class="stage" aria-live="polite">
+          <div class="stage-top">
+            <div class="tiny" id="stageSub">Графит · Термоясень тёмный</div>
+            <div class="tiny muted" id="stageMods">2 гриль-модуля · до 8 мест</div>
+          </div>
+          <div class="stage-big"><span class="mega" id="bigNum">2200</span><sup id="bigSup">мм</sup></div>
+          <div class="render"><canvas id="render" width="1300" height="933" aria-label="Гриль-стол Атрио в выбранном размере и цветах"></canvas><div class="kit-icons" id="kitIcons" aria-live="polite"></div></div>
+          <div class="scale" id="scale" role="group" aria-label="Сравнение длин"></div>
+          <div class="stage-specs">
+            <div><b id="spLen">2200</b>длина, мм</div>
+            <div><b>1100</b>ширина, мм</div>
+            <div><b>740–800</b>высота, мм</div>
+            <div><b id="spPow">10,6</b>кВт суммарно</div>
+          </div>
+        </div>
+        <div>
+          <div class="opt">
+            <div class="opt-h"><span class="label">Размер</span></div>
+            <div class="sizes" role="group" aria-label="Размер стола">
+              <button class="size-btn" type="button" data-size="1600" aria-pressed="false"><span class="mm">1600<small>мм</small></span><span class="seats">до 6 мест</span><span class="mods">1 гриль-модуль</span><span class="sp" data-p="1600"></span></button>
+              <button class="size-btn" type="button" data-size="2200" aria-pressed="true"><span class="mm">2200<small>мм</small></span><span class="seats">до 8 мест</span><span class="mods">2 гриль-модуля</span><span class="sp" data-p="2200"></span></button>
+              <button class="size-btn" type="button" data-size="2800" aria-pressed="false"><span class="mm">2800<small>мм</small></span><span class="seats">до 10 мест</span><span class="mods">3 гриль-модуля</span><span class="sp" data-p="2800"></span></button>
+            </div>
+          </div>
+          <div class="opt">
+            <div class="opt-h"><span class="label">Металл каркаса · базовые цвета</span><span class="val" id="metalName">Графит</span></div>
+            <div class="swatches" id="metalSw" role="group" aria-label="Цвет металла"></div>
+            <p class="opt-note">Базовые цвета. Покрасим каркас в любой цвет по RAL по согласованию.</p>
+          </div>
+          <div class="opt">
+            <div class="opt-h"><span class="label">Древесина</span><span class="val" id="woodName">Термоясень тёмный</span></div>
+            <div class="swatches" id="woodSw" role="group" aria-label="Порода дерева"></div>
+          </div>
+          <div class="opt">
+            <div class="opt-h"><span class="label">Комплект</span></div>
+            <div class="kit">
+              <label class="kit-row" for="kCover"><input type="checkbox" id="kCover"><span>Кожух для баллона</span><span class="kp">33 600 ₽</span></label>
+              <div class="kit-row"><span class="kn">Стулья Линеа</span><span class="stepper"><button type="button" id="chMinus" aria-label="Меньше стульев">−</button><output id="kChairs">0</output><button type="button" id="chPlus" aria-label="Больше стульев">+</button></span><span class="kp" id="kChairsP">29 300 ₽ / шт.</span></div>
+            </div>
+          </div>
+          <div class="total">
+            <div><span class="tiny muted">Стол</span><b id="priceTable">369 000 ₽</b></div>
+            <div><span class="tiny muted">Итого за комплект</span><b id="priceTotal" class="big">369 000 ₽</b></div>
+          </div>
+          <p class="cfg-note">Цены в рублях. Тик: +12 % к цене стола, термодуб: +6 %, с округлением до 500 ₽. Цвета показаны условно: точный оттенок и фактуру согласуем по физическим образцам.</p>
+          <div class="cfg-actions">
+            <a class="btn btn-olive" href="#contact">Заказать расчёт</a>
+            <a class="btn btn-ghost" href="#accessories">Аксессуары</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="details" class="det">
+    <div class="det-track" id="detTrack">
+      <div class="det-sticky">
+        <div class="wrap det-grid">
+          <div>
+            <p class="tiny muted">Детали</p>
+            <h2 class="h2" style="margin-top:14px">Продуманный характер</h2>
+            <div class="det-count"><b class="mega" id="detN">01</b><span>/ 03</span></div>
+            <div class="det-items">
+              <div class="det-item on"><img src="grate.webp" alt="" loading="lazy"><div><h3>Решётка</h3><p>Нержавеющая сталь, 450 × 240 мм. Утоплена вровень со столешницей и не мешает тарелкам.</p></div></div>
+              <div class="det-item"><img src="knob.webp" alt="" loading="lazy"><div><h3>Регуляторы</h3><p>Деревянные рукоятки управления горелками со встроенным пьезоэлектрическим розжигом.</p></div></div>
+              <div class="det-item"><img src="corner.webp" alt="" loading="lazy"><div><h3>Дерево и металл</h3><p>Фактура древесины в строгой металлической раме. Рама закрывает торцы досок и держит геометрию.</p></div></div>
+            </div>
+            <div class="det-prog" id="detProg"><i class="on"></i><i></i><i></i></div>
+          </div>
+          <div class="lens" id="lens">
+            <img src="grate.webp" alt="Решётка из нержавеющей стали в деревянной столешнице" loading="lazy">
+            <img src="knob.webp" alt="Деревянная ручка регулятора горелки с чёрной вставкой" loading="lazy">
+            <img src="corner.webp" alt="Угол стола: столешница в стальной раме, табличка GrillStory" loading="lazy">
+            <span class="lens-tag" id="lensTag">нержавеющая сталь</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap" style="padding-bottom:clamp(72px,10vw,140px)">
+      <div class="climate">
+        <div>
+          <p class="tiny muted">T-Rust Plus / Arsonsisi</p>
+          <h3 style="margin-top:12px">Для российского климата</h3>
+          <p class="muted" style="margin-top:10px;font-size:15px">Трёхслойная защита каркаса от коррозии, влаги и перепадов температур.</p>
+        </div>
+        <div class="steps">
+          <div class="step"><span class="label muted">Шаг 1</span><b>Очистка</b><p>Пескоструйная обработка до степени Sa 2,5.</p></div>
+          <div class="step"><span class="label muted">Шаг 2</span><b>Грунт</b><p>Цинконаполненный грунт B920HT3 Zintech.</p></div>
+          <div class="step"><span class="label muted">Шаг 3</span><b>Финиш</b><p>Полиэфирная порошковая краска для наружных работ.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="accessories" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="tiny">Аксессуары</p>
+        <h2 class="h2">Продолжение коллекции</h2>
+        <p class="lead muted">Всё сделано в той же паре материалов, что и стол, поэтому комплект выглядит цельно.</p>
+      </div>
+      <div class="acc">
+        <article class="acc-card"><figure><img src="chair.webp" alt="Стул из металла и реек термоясеня" loading="lazy"></figure>
+          <div class="acc-body"><h3>Стул Линеа</h3><div class="dim">560 × 750 × 590 мм</div><ul><li>Стальной каркас, порошковая окраска</li><li>Сиденье и спинка из термоясеня</li><li>Каркас в цвет стола</li></ul><div class="acc-price">29 300 ₽</div></div></article>
+        <article class="acc-card"><figure><img src="cover.webp" alt="Кожух для газового баллона из металла и реек термоясеня" loading="lazy"></figure>
+          <div class="acc-body"><h3>Кожух для баллона</h3><div class="dim">420 × 450 × 750 мм</div><ul><li>Для баллона с заправкой до 11 кг</li><li>Баллон не на виду, рядом со столом</li><li>Обшивка из термоясеня, крышка-столик</li></ul><div class="acc-price">33 600 ₽</div></div></article>
+        <article class="acc-card"><figure><img src="plancha.webp" alt="Планча из нержавеющей стали с двумя ручками" loading="lazy"></figure>
+          <div class="acc-body"><h3>Планча для жарки</h3><div class="dim">460 × 250 × 70 мм</div><ul><li>Нержавеющая сталь, цельная конструкция</li><li>Гладкая поверхность с бортиками</li><li>Для рыбы, овощей, яиц и морепродуктов</li></ul><div class="acc-price muted">Цена по запросу</div></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="auren" class="auren">
+    <div class="wrap">
+      <div class="auren-top">
+        <div>
+          <p class="tiny muted">Очаги на дровах</p>
+          <h2 class="mega" aria-label="Аурен">аурен</h2>
+        </div>
+        <p class="lead sub" style="max-width:40ch">Архитектура живого огня. Круглый очаг Ø 1800 мм: столешница из архитектурного бетона на стальном основании. Центр вечера после ужина за Атрио.</p>
+      </div>
+      <div class="fire-wrap">
+        <figure class="pit-photo"><img src="pit-life.webp" alt="Очаг Аурен с бетонной столешницей на террасе у воды на закате, рядом два кресла" loading="lazy"></figure>
+        <div>
+          <h3 style="font-size:clamp(26px,2.6vw,36px);letter-spacing:-.02em">Живой огонь без дыма.<br>Решётка — по желанию.</h3>
+          <dl class="spec">
+            <div><dt>Диаметр</dt><dd>1800 мм, высота 450 мм</dd></div>
+            <div><dt>Горение</dt><dd>Бездымная технология</dd></div>
+            <div><dt>Металл</dt><dd>Термостойкая сталь толщиной до 5 мм</dd></div>
+            <div><dt>Чаша</dt><dd>Ø 780 мм</dd></div>
+            <div><dt>Приготовление</dt><dd>На живом огне. Решётка для гриля — аксессуар, заказывается отдельно</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="pit-eve">
+        <figure><img src="pit-night.webp" alt="Вечер у очага Аурен: вид сверху, вокруг шесть стульев на гравийной площадке, горят гирлянды" loading="lazy"></figure>
+        <div class="eve-txt">
+          <p class="tiny muted">Вечер у огня</p>
+          <h3>Ужин закончился,<br>разговор продолжается</h3>
+          <p class="sub">После Атрио все переходят к Аурену. Круглая форма собирает людей лицом друг к другу, а широкий борт столешницы заменяет столик для бокалов.</p>
+          <dl class="eve-stats">
+            <div><dt>450<small>мм</small></dt><dd>высота очага: удобно сидеть рядом на низком стуле</dd></div>
+            <div><dt>780<small>мм</small></dt><dd>диаметр чаши для дров</dd></div>
+            <div><dt>5<small>мм</small></dt><dd>толщина стали в термостойкой эмали</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="pits-head">
+        <h3 class="h2">Выберите свой размер</h3>
+        <p class="sub">Бетон или металл, Ø 1800 или компактный Ø 1200 мм.</p>
+      </div>
+
+      <div class="pits">
+        <article class="pit"><svg viewBox="0 0 220 220" aria-hidden="true"><circle cx="110" cy="110" r="104" fill="#bdbab2" stroke="#8d8a83"/><circle cx="110" cy="110" r="45" fill="#2a2a27" stroke="#8d8a83"/><text x="110" y="114" text-anchor="middle" font-size="11" fill="#edede9" font-family="Geist, Arial">Ø 1800</text></svg><div class="label muted">Ø 1800 мм</div><h3>Бетон</h3><p>Столешница из бетона. Самый архитектурный вариант для сада и газона.</p><div class="pit-price">289 800 ₽</div></article>
+        <article class="pit"><svg viewBox="0 0 220 220" aria-hidden="true"><circle cx="110" cy="110" r="104" fill="#3b3d3f" stroke="#6c6f72"/><circle cx="110" cy="110" r="45" fill="#171716" stroke="#6c6f72"/><text x="110" y="114" text-anchor="middle" font-size="11" fill="#edede9" font-family="Geist, Arial">Ø 1800</text></svg><div class="label muted">Ø 1800 мм</div><h3>Металл</h3><p>Металлическая столешница в термостойкой эмали. Строгая графика для террасы.</p><div class="pit-price">242 100 ₽</div></article>
+        <article class="pit"><svg viewBox="0 0 220 220" aria-hidden="true"><circle cx="110" cy="110" r="69" fill="#3b3d3f" stroke="#6c6f72"/><circle cx="110" cy="110" r="30" fill="#171716" stroke="#6c6f72"/><text x="110" y="114" text-anchor="middle" font-size="11" fill="#edede9" font-family="Geist, Arial">Ø 1200</text></svg><div class="label muted">Ø 1200 мм</div><h3>Металл, компакт</h3><p>Меньший диаметр для небольших террас и патио. К нему подходит стул у очага.</p><div class="pit-price">193 500 ₽</div></article>
+      </div>
+      <p class="muted" style="font-size:12px;margin-top:14px">Схемы условные, в масштабе между собой. Решётка для гриля заказывается отдельно.</p>
+
+      <div class="stool">
+        <div class="txt">
+          <p class="tiny muted">Зона отдыха</p>
+          <h3>Стул у очага</h3>
+          <p class="sub" style="font-size:16px">Лаконичная форма без спинки из одного листа гнутого металла. Плавный изгиб перекликается с круглой столешницей Аурен.</p>
+          <div class="pit-price">28 800 ₽</div>
+          <p class="sub" style="font-size:14px">Исполнение и цвет согласуем при заказе.</p>
+        </div>
+        <div class="viewer" id="viewer">
+          <span class="deg" id="deg">вид сбоку</span>
+          <div class="viewer-stage">
+            <img class="on" src="stool-2.webp" alt="Стул у очага, вид сбоку" loading="lazy">
+            <img src="stool-1.webp" alt="Стул у очага, вид в три четверти" loading="lazy">
+            <img src="stool-0.webp" alt="Стул у очага, вид спереди" loading="lazy">
+          </div>
+          <div class="views" role="group" aria-label="Ракурс">
+            <button type="button" aria-pressed="true">сбоку</button>
+            <button type="button" aria-pressed="false">3/4</button>
+            <button type="button" aria-pressed="false">спереди</button>
+          </div>
+        </div>
+        <figure><img src="firepit-scene.webp" alt="Стулья у металлического очага на гравийной площадке" loading="lazy"></figure>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="projects" class="proj">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="tiny">Проекты</p>
+        <h2 class="h2">Выполненные проекты</h2>
+        <p class="lead muted">Террасы загородных домов, сады и площадки у воды. Нажмите на фото, чтобы открыть его крупно.</p>
+      </div>
+      <div class="gal">
+        <button type="button" class="g g-w" data-cap="Атрио 2800 · терраса загородного дома"><img src="hero-dinner.webp" alt="Ужин за гриль-столом Атрио на террасе" loading="lazy"><span>Атрио 2800 · терраса загородного дома</span></button>
+        <button type="button" class="g g-t" data-cap="Аурен Ø 1800 · гравийная площадка в саду"><img src="pit-night.webp" alt="Очаг Аурен со стульями в саду вечером" loading="lazy"><span>Аурен Ø 1800 · сад</span></button>
+        <button type="button" class="g" data-cap="Атрио 2800 · терраса в сосновом лесу"><img src="terrace.webp" alt="Сервированный гриль-стол Атрио на террасе в лесу" loading="lazy"><span>Атрио 2800 · терраса в лесу</span></button>
+        <button type="button" class="g" data-cap="Аурен Ø 1800, бетон · терраса у воды"><img src="pit-life.webp" alt="Очаг Аурен на террасе у воды на закате" loading="lazy"><span>Аурен Ø 1800 · у воды</span></button>
+        <button type="button" class="g g-w" data-cap="Атрио · терраса у залива"><img src="gal-sea.webp" alt="Гриль-стол со стульями на террасе у залива" loading="lazy"><span>Атрио · терраса у залива</span></button>
+        <button type="button" class="g" data-cap="Стулья у очага · гравийная площадка"><img src="firepit-scene.webp" alt="Стулья у очага на гравии" loading="lazy"><span>Стулья у очага</span></button>
+        <button type="button" class="g g-w" data-cap="Атрио 2800 · терраса с видом на холмы"><img src="atrio-front.jpg" alt="Гриль-стол Атрио 2800 на террасе, вид спереди" loading="lazy"><span>Атрио 2800 · терраса</span></button>
+        <button type="button" class="g" data-cap="Атрио · деталь, табличка GrillStory"><img src="corner.webp" alt="Угол стола Атрио с табличкой GrillStory" loading="lazy"><span>Атрио · деталь</span></button>
+      </div>
+    </div>
+    <div class="lb" id="lb" hidden><button type="button" class="lb-x" aria-label="Закрыть">×</button><img alt=""><p></p></div>
+  </section>
+
+  <section id="video" class="vid">
+    <div class="vid-bgword mega" aria-hidden="true">в деле</div>
+    <div class="wrap vid-grid">
+      <div class="vid-txt">
+        <p class="tiny muted">Видео</p>
+        <h2 class="h2">Атрио в деле</h2>
+        <p class="lead sub">Как устроен гриль-модуль изнутри: чаша из нержавеющей стали, горелка и розжиг. Скоро здесь появится фильм о столе и о том, как готовить за ним с друзьями.</p>
+        <div class="vid-facts">
+          <div><b>5,3</b><span>кВт на модуль</span></div>
+          <div><b>1</b><span>поворот ручки до огня</span></div>
+          <div><b>450×240</b><span>мм решётка из нержавеющей стали</span></div>
+        </div>
+      </div>
+      <div class="vid-frame"><video id="vid" controls playsinline preload="metadata" poster="video-poster.webp"><source src="video.mp4" type="video/mp4">Ваш браузер не поддерживает видео.</video></div>
+      <ol class="chapters" aria-label="Главы видео">
+        <li><button type="button" data-t="3"><img src="ch-3.webp" alt="" loading="lazy"><span><em>0:03</em>Чаша гриль-модуля</span></button></li>
+        <li><button type="button" data-t="20"><img src="ch-20.webp" alt="" loading="lazy"><span><em>0:20</em>Установка горелки</span></button></li>
+        <li><button type="button" data-t="40"><img src="ch-40.webp" alt="" loading="lazy"><span><em>0:40</em>Розжиг и пламя</span></button></li>
+        <li><button type="button" data-t="115"><img src="ch-115.webp" alt="" loading="lazy"><span><em>1:55</em>Решётка на месте</span></button></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="partners">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="tiny">Партнёрам</p>
+        <h2 class="h2">Работаем вместе</h2>
+        <p class="lead muted">Открыты для дилеров, архитекторов и дизайнеров интерьера и ландшафта. Условия и объёмы обсуждаем индивидуально.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Тип партнёрства">
+        <button type="button" role="tab" id="tab-d" aria-selected="true" aria-controls="p-d">Дилерам</button>
+        <button type="button" role="tab" id="tab-a" aria-selected="false" aria-controls="p-a">Архитекторам и дизайнерам</button>
+      </div>
+      <div class="panel" id="p-d" role="tabpanel" aria-labelledby="tab-d">
+        <div class="panel-l">
+          <b class="mega">дилерам</b>
+          <p class="muted">Для салонов мебели, магазинов для дома и сада, компаний по благоустройству и строительству загородных домов.</p>
+          <div><button class="btn btn-olive" type="button" data-role="Дилер">Стать дилером</button></div>
+        </div>
+        <div class="perks">
+          <div class="perk"><b>Дилерские цены</b><p>Партнёрский прайс и рекомендованная розничная цена для всех регионов.</p></div>
+          <div class="perk"><b>Демо-образец</b><p>Стол для шоурума на специальных условиях, чтобы покупатели видели его вживую.</p></div>
+          <div class="perk"><b>Образцы отделок</b><p>Набор образцов металла и древесины для подбора цвета с клиентом.</p></div>
+          <div class="perk"><b>Материалы для продаж</b><p>Фото, видео, визуализации и каталог для сайта и соцсетей.</p></div>
+          <div class="perk"><b>Обучение</b><p>Расскажем менеджерам про газ, комплектацию и уход, поможем с первыми сделками.</p></div>
+          <div class="perk"><b>Личный менеджер</b><p>Один контакт по заказам, срокам производства и доставке.</p></div>
+        </div>
+      </div>
+      <div class="panel" id="p-a" role="tabpanel" aria-labelledby="tab-a" hidden>
+        <div class="panel-l">
+          <b class="mega">в проект</b>
+          <p class="muted">Для архитекторов, дизайнеров интерьера и ландшафтных бюро, которые проектируют террасы, сады и рестораны.</p>
+          <div><button class="btn btn-olive" type="button" data-role="Архитектор или дизайнер">Получить материалы</button></div>
+        </div>
+        <div class="perks">
+          <div class="perk"><b>3D-модели и чертежи</b><p>Модели стола, очагов и аксессуаров для визуализаций и рабочей документации.</p></div>
+          <div class="perk"><b>Цвет под проект</b><p>Подбор цвета каркаса и породы дерева под палитру объекта по согласованию.</p></div>
+          <div class="perk"><b>Образцы в студию</b><p>Физические образцы металла и древесины для презентации заказчику.</p></div>
+          <div class="perk"><b>Партнёрское вознаграждение</b><p>Вознаграждение за проекты, в которых используется наша мебель.</p></div>
+          <div class="perk"><b>Консультация</b><p>Поможем с размещением гриль-стола и очага на террасе и в саду.</p></div>
+          <div class="perk"><b>Сопровождение</b><p>Ведём проект от подбора комплектации до доставки на объект.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="tiny">Как заказать</p>
+        <h2 class="h2">От заявки до первого ужина</h2>
+        <p class="lead muted">Производим в Санкт-Петербурге под ваш проект.</p>
+      </div>
+      <ol class="proc">
+        <li><span class="n">01</span><b>Заявка</b><p>Оставьте конфигурацию или просто позвоните. Уточним площадку и число гостей.</p></li>
+        <li><span class="n">02</span><b>Образцы</b><p>Покажем физические образцы металла и дерева, чтобы выбрать оттенок вживую.</p></li>
+        <li><span class="n">03</span><b>Расчёт и договор</b><p>Согласуем комплектацию: стол, стулья, кожух, планчу, очаг.</p></li>
+        <li><span class="n">04</span><b>Производство и доставка</b><p>Изготовим, доставим и покажем, как пользоваться грилем.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="faq" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="tiny">Вопросы</p>
+        <h2 class="h2">Частые вопросы</h2>
+      </div>
+      <div class="faq">
+        <details><summary>Какой газ нужен для гриль-стола?</summary><p>Атрио работает от бытового газового баллона со сжиженным газом (пропан-бутан) с заправкой до 11 кг. Баллон ставится в кожух рядом со столом. Если хотите подключение к другому источнику газа, обсудите это с менеджером заранее.</p></details>
+        <details><summary>Сколько гриль-модулей в каждом размере?</summary><p>1600 мм — один модуль, 2200 мм — два, 2800 мм — три. Мощность каждого модуля 5,3 кВт, у каждого своя ручка регулировки с пьезорозжигом.</p></details>
+        <details><summary>Можно ли оставить стол на улице круглый год?</summary><p>Каркас защищён системой T-Rust Plus: пескоструйная очистка, цинконаполненный грунт и полиэфирная краска для наружных работ. Древесина термически модифицирована. На зиму советуем отключить и убрать баллон, а стол накрыть.</p></details>
+        <details><summary>Как ухаживать за решёткой и деревом?</summary><p>Решётку и планчу из нержавеющей стали чистите после остывания щёткой и обычным средством для гриля. Деревянную столешницу протирайте влажной тканью и периодически обновляйте масло для наружных работ.</p></details>
+        <details><summary>Можно ли посмотреть цвета вживую?</summary><p>Да. На экране цвета показаны условно, поэтому точный оттенок металла и фактуру дерева мы согласуем по физическим образцам.</p></details>
+        <details><summary>Сколько стоит комплект?</summary><p>Стоимость зависит от размера, отделки и набора аксессуаров. Отправьте конфигурацию, и мы подготовим расчёт.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap contact-grid">
+      <div>
+        <p class="tiny muted">Контакты</p>
+        <h2 class="h2" style="margin:16px 0 20px">Соберём ваше пространство</h2>
+        <p class="lead muted">Атрио и Аурен: гриль-стол, очаг и аксессуары. Подберём материалы, оттенки и комплектацию под ваш проект.</p>
+        <div class="c-list">
+          <div><span class="label">Телефон</span><a class="big-tel" href="tel:+79668700960">+7 (966) 870-09-60</a></div>
+          <div><span class="label">Почта</span><a href="mailto:info@grillstory.ru">info@grillstory.ru</a></div>
+          <div><span class="label">Шоурум и производство</span>Санкт-Петербург, ул. Розенштейна, 21</div>
+        </div>
+      </div>
+      <div>
+        <form id="leadForm" novalidate>
+          <div class="row2">
+            <div class="field"><label for="fName">Имя</label><input id="fName" name="name" autocomplete="name" required></div>
+            <div class="field"><label for="fPhone">Телефон</label><input id="fPhone" name="phone" type="tel" autocomplete="tel" placeholder="+7" required></div>
+          </div>
+          <div class="field"><label for="fRole">Кто вы</label>
+            <select id="fRole" name="role"><option>Частный покупатель</option><option>Дилер</option><option>Архитектор или дизайнер</option></select></div>
+          <div class="field"><label for="fCfg">Конфигурация</label><input id="fCfg" name="cfg" readonly></div>
+          <div class="field"><label for="fMsg">Комментарий</label><textarea id="fMsg" name="msg" placeholder="Например: нужен ещё очаг Аурен Ø 1800 и 8 стульев"></textarea></div>
+          <div class="err" id="fErr" hidden>Укажите имя и телефон, чтобы мы могли связаться с вами.</div>
+          <button class="btn btn-olive" type="submit">Получить расчёт</button>
+          <p class="form-note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</p>
+        </form>
+        <div class="done" id="done" hidden>
+          <b style="font-weight:400">Заявка собрана</b>
+          <pre id="doneText"></pre>
+          <p class="form-note">Отправьте текст на info@grillstory.ru или позвоните по номеру +7 (966) 870-09-60.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-olive" type="button" id="copyBtn">Скопировать заявку</button><button class="btn btn-ghost" type="button" id="editBtn">Изменить</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="brand"><b>grill</b><span>story</span></span>
+    <span>Гриль-столы Атрио · Очаги Аурен · Санкт-Петербург</span>
+    <span>+7 (966) 870-09-60</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var METALS=[{n:'Графит',c:'#414548'},{n:'Чёрный муар',c:'#222323'},{n:'Мокко',c:'#766255'},{n:'Белый',c:'#f3f3ee'},{n:'Олива',c:'#5a5d3c',nw:1},{n:'Кортен',c:'#7a4a2c',nw:1}];
+  var WOODS=[{n:'Термоясень светлый',c:'#b99a6b',k:0},{n:'Термоясень тёмный',c:'#65503c',k:0},{n:'Тик',c:'#b1834f',k:.12},{n:'Термодуб',c:'#897254',k:.06}];
+  var SIZES={1600:{m:1,s:6,p:299000},2200:{m:2,s:8,p:369000},2800:{m:3,s:10,p:439000}};
+  var COVER=33600,CHAIR=29300;
+  var st={size:2200,metal:0,wood:1,cover:false,chairs:0};
+  function $(s){return document.querySelector(s)} function $$(s){return Array.prototype.slice.call(document.querySelectorAll(s))}
+  function clamp(v){return v<0?0:v>1?1:v}
+  function hex(h){var n=parseInt(h.slice(1),16);return[n>>16,n>>8&255,n&255]}
+  function rub(n){return n.toLocaleString('ru-RU').replace(/,/g,' ')+' ₽'}
+  function tablePrice(size,wood){var b=SIZES[size].p,k=WOODS[wood].k;return k?Math.round(b*(1+k)/500)*500:b}
+
+  /* swatches */
+  function mkSw(host,list,key,cls){list.forEach(function(it,i){var b=document.createElement('button');b.type='button';b.className='sw '+cls;b.style.setProperty('--c',it.c);b.title=it.n;b.setAttribute('aria-label',it.n+(it.k?', +'+Math.round(it.k*100)+'%':''));
+    if(it.nw){var s=document.createElement('span');s.className='new';s.textContent='NEW';b.appendChild(s)}
+    if(it.k){var t=document.createElement('span');t.className='tag';t.textContent='+'+Math.round(it.k*100)+'%';b.appendChild(t)}
+    b.addEventListener('click',function(){st[key]=i;render()});host.appendChild(b)})}
+  mkSw($('#metalSw'),METALS,'metal','');
+  mkSw($('#woodSw'),WOODS,'wood','wood');
+  $$('.size-btn').forEach(function(b){b.addEventListener('click',function(){st.size=+b.dataset.size;render()})});
+  var scale=$('#scale');
+  [1600,2200,2800].forEach(function(s){var r=document.createElement('button');r.type='button';r.className='scale-row';r.dataset.size=s;
+    r.innerHTML='<span>'+s+'</span><span class="track"><span class="fill" style="width:'+(s/2800*100)+'%"></span></span><span>до '+SIZES[s].s+' мест</span>';
+    r.addEventListener('click',function(){st.size=s;render()});scale.appendChild(r)});
+  $('#kCover').addEventListener('change',function(){st.cover=this.checked;render()});
+  $('#chMinus').addEventListener('click',function(){st.chairs=Math.max(0,st.chairs-1);render()});
+  $('#chPlus').addEventListener('click',function(){st.chairs=Math.min(12,st.chairs+1);render()});
+
+  /* recolor render, one image + mask per size */
+  var cv=$('#render'),ctx=cv.getContext('2d'),CACHE={},MOD={1600:1,2200:2,2800:3};
+  function load(size,cb){var m=MOD[size];if(CACHE[m]&&CACHE[m].ready)return cb(CACHE[m]);
+    if(CACHE[m]){CACHE[m].q.push(cb);return}
+    var e=CACHE[m]={q:[cb],ready:false},a=new Image(),b=new Image(),n=0;
+    function done(){if(++n<2)return;var W=cv.width,H=cv.height,o=document.createElement('canvas');o.width=W;o.height=H;var c=o.getContext('2d');
+      c.drawImage(a,0,0,W,H);e.base=c.getImageData(0,0,W,H);c.clearRect(0,0,W,H);c.drawImage(b,0,0,W,H);e.mask=c.getImageData(0,0,W,H).data;e.ready=true;
+      var q=e.q;e.q=[];q.forEach(function(f){f(e)})}
+    a.onload=done;b.onload=done;a.src='atrio-'+m+'.webp';b.src='atrio-'+m+'-mask.png'}
+  function paint(){var want=st.size;load(want,function(e){if(st.size!==want)return;
+    var src=e.base.data,mask=e.mask,out=ctx.createImageData(e.base.width,e.base.height),d=out.data;
+    var tm=hex(METALS[st.metal].c),tw=hex(WOODS[st.wood].c),light=(tm[0]+tm[1]+tm[2])/765>.6;
+    for(var i=0;i<src.length;i+=4){var r=src[i],g=src[i+1],b=src[i+2];d[i+3]=src[i+3];
+      var w=mask[i]/255,m=mask[i+1]/255;if(w+m<.01){d[i]=r;d[i+1]=g;d[i+2]=b;continue}
+      if(w+m>1){var t=w+m;w/=t;m/=t}
+      var l=(r+g+b)/765,k,h,wr,wg,wb,mr,mg,mb;
+      k=Math.pow(l/.51,1.05);wr=tw[0]*k;wg=tw[1]*k;wb=tw[2]*k;
+      if(light){k=.72+.5*(l/.17);h=0}else{k=.55+.45*(l/.17);h=Math.max(0,l-.26)*150}
+      mr=tm[0]*k+h;mg=tm[1]*k+h;mb=tm[2]*k+h;
+      var o=1-w-m;d[i]=r*o+wr*w+mr*m;d[i+1]=g*o+wg*w+mg*m;d[i+2]=b*o+wb*w+mb*m}
+    ctx.putImageData(out,0,0);cv.classList.remove('fade');void cv.offsetWidth;cv.classList.add('fade')})}
+
+  function cfgText(){var t='Атрио '+st.size+' мм ('+SIZES[st.size].m+' гриль-мод.), '+METALS[st.metal].n+' / '+WOODS[st.wood].n+' — '+rub(tablePrice(st.size,st.wood));
+    if(st.cover)t+='; кожух для баллона';if(st.chairs)t+='; стулья Линеа × '+st.chairs;return t+'. Итого: '+rub(total())}
+  function total(){return tablePrice(st.size,st.wood)+(st.cover?COVER:0)+st.chairs*CHAIR}
+  function render(){
+    $$('.size-btn').forEach(function(b){b.setAttribute('aria-pressed',+b.dataset.size===st.size)});
+    $$('.sp').forEach(function(e){e.textContent=rub(tablePrice(+e.dataset.p,st.wood))});
+    $$('.scale-row').forEach(function(b){b.classList.toggle('on',+b.dataset.size===st.size)});
+    $$('#metalSw .sw').forEach(function(b,i){b.setAttribute('aria-pressed',i===st.metal)});
+    $$('#woodSw .sw').forEach(function(b,i){b.setAttribute('aria-pressed',i===st.wood)});
+    $('#metalName').textContent=METALS[st.metal].n;$('#woodName').textContent=WOODS[st.wood].n+(WOODS[st.wood].k?' (+'+Math.round(WOODS[st.wood].k*100)+'%)':'');
+    $('#stageSub').textContent=METALS[st.metal].n+' · '+WOODS[st.wood].n;
+    var mods=SIZES[st.size].m;$('#stageMods').textContent=mods+(mods===1?' гриль-модуль':' гриль-модуля')+' · до '+SIZES[st.size].s+' мест';
+    var big=$('#bigNum');big.textContent=st.size;$('#bigSup').style.left=(big.offsetWidth+6)+'px';
+    $('#spLen').textContent=st.size;$('#spPow').textContent=(mods*5.3).toFixed(1).replace('.',',');
+    $('#kChairs').textContent=st.chairs;$('#kChairsP').textContent=st.chairs?rub(st.chairs*CHAIR):'29 300 ₽ / шт.';
+    $('#priceTable').textContent=rub(tablePrice(st.size,st.wood));$('#priceTotal').textContent=rub(total());
+    var ki=$('#kitIcons'),h='',PL='<span class="kplus" aria-hidden="true">+</span>';if(st.cover)h+=PL+'<span class="ki"><img src="ic-cover.png" alt="Кожух для баллона">кожух</span>';
+    if(st.chairs){h+=PL;for(var c=0;c<st.chairs;c++)h+='<span class="ki"><img src="ic-chair.png" alt="Стул Линеа">'+(c===st.chairs-1?'стул × '+st.chairs:'&nbsp;')+'</span>'}
+    if(ki.dataset.h!==h){ki.innerHTML=h;ki.dataset.h=h}
+    $('#fCfg').value=cfgText();paint()}
+  render();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(render);
+  var rz;addEventListener('resize',function(){clearTimeout(rz);rz=setTimeout(function(){var big=$('#bigNum');$('#bigSup').style.left=(big.offsetWidth+6)+'px'},150)});
+
+  /* scroll-linked: marquee + details lens */
+  var idea=$('#idea'),marq=$('#marquee'),track=$('#detTrack'),lensImgs=$$('#lens img'),items=$$('.det-item'),prog=$$('#detProg i');
+  var TAGS=['нержавеющая сталь','пьезорозжиг','термоясень + сталь'],ticking=false;
+  function onScroll(){ticking=false;var vh=innerHeight,r;
+    r=idea.getBoundingClientRect();marq.style.setProperty('--q',RM?.5:clamp((vh-r.top)/(vh+r.height)).toFixed(3));
+    r=track.getBoundingClientRect();
+    if(innerWidth>900){var p=clamp(-r.top/(r.height-vh)),n=Math.min(2,Math.floor(p*3)),loc=clamp(p*3-n);
+      lensImgs.forEach(function(im,i){var c=i<n?100:i>n?0:Math.min(100,loc*260);if(i===0&&n===0)c=Math.max(c,40+loc*200);
+        im.style.setProperty('--c',(RM?(i<=n?100:0):c)+'%');im.style.setProperty('--s',(i===n?1.2-.2*Math.min(1,loc*1.5):1).toFixed(3));im.style.zIndex=i});
+      items.forEach(function(it,i){it.classList.toggle('on',i===n)});prog.forEach(function(it,i){it.classList.toggle('on',i<=n)});
+      $('#detN').textContent='0'+(n+1);$('#lensTag').textContent=TAGS[n]}}
+  addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
+  addEventListener('resize',onScroll);onScroll();
+  var navA=$$('.nav a'),secs=navA.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function navOn(){var y=innerHeight*.35,cur=-1;secs.forEach(function(sec,i){if(sec&&sec.getBoundingClientRect().top<y)cur=i});
+    navA.forEach(function(a,i){a.classList.toggle('on',i===cur)});if(cur>=0&&innerWidth<=1100){var a=navA[cur],n=a.parentNode;if(a.offsetLeft<n.scrollLeft||a.offsetLeft+a.offsetWidth>n.scrollLeft+n.clientWidth)n.scrollTo({left:a.offsetLeft-20,behavior:'smooth'})}}
+  addEventListener('scroll',function(){requestAnimationFrame(navOn)},{passive:true});navOn();
+
+  /* stool viewer */
+  var vimgs=$$('.viewer-stage img'),vbtn=$$('.views button'),LAB=['вид сбоку','вид в три четверти','вид спереди'],vi=0,auto=null;
+  function show(i){vi=(i+3)%3;vimgs.forEach(function(im,k){im.classList.toggle('on',k===vi)});vbtn.forEach(function(b,k){b.setAttribute('aria-pressed',k===vi)});$('#deg').textContent=LAB[vi]}
+  vbtn.forEach(function(b,k){b.addEventListener('click',function(){stop();show(k)})});
+  function stop(){if(auto){clearInterval(auto);auto=null}}
+  if(!RM)auto=setInterval(function(){show(vi+1)},2600);
+  var vw=$('#viewer'),sx=null;
+  vw.addEventListener('pointerdown',function(e){sx=e.clientX});
+  vw.addEventListener('pointerup',function(e){if(sx===null)return;var dx=e.clientX-sx;sx=null;if(Math.abs(dx)>30){stop();show(vi+(dx<0?1:-1))}});
+
+  /* video chapters */
+  var vd=$('#vid'),chs=$$('.chapters button');
+  chs.forEach(function(b){b.addEventListener('click',function(){try{vd.currentTime=+b.dataset.t;var pr=vd.play();if(pr&&pr.catch)pr.catch(function(){})}catch(e){}})});
+  vd.addEventListener('timeupdate',function(){var t=vd.currentTime,cur=-1;chs.forEach(function(b,i){if(t>=+b.dataset.t-.5)cur=i});chs.forEach(function(b,i){b.classList.toggle('on',i===cur)})});
+
+  /* lightbox */
+  var lb=$('#lb');
+  $$('.g').forEach(function(g){g.addEventListener('click',function(){var im=g.querySelector('img');lb.querySelector('img').src=im.src;lb.querySelector('img').alt=im.alt;lb.querySelector('p').textContent=g.dataset.cap;lb.hidden=false;lb.querySelector('.lb-x').focus()})});
+  function closeLb(){lb.hidden=true}
+  lb.addEventListener('click',function(e){if(e.target===lb||e.target.classList.contains('lb-x'))closeLb()});
+  addEventListener('keydown',function(e){if(e.key==='Escape'&&!lb.hidden)closeLb()});
+
+  /* partner tabs */
+  var tabs=$$('[role=tab]');
+  tabs.forEach(function(t){t.addEventListener('click',function(){tabs.forEach(function(x){var on=x===t;x.setAttribute('aria-selected',on);document.getElementById(x.getAttribute('aria-controls')).hidden=!on})})});
+  $$('[data-role]').forEach(function(b){b.addEventListener('click',function(){$('#fRole').value=b.dataset.role;document.getElementById('contact').scrollIntoView({behavior:RM?'auto':'smooth'});setTimeout(function(){$('#fName').focus({preventScroll:true})},600)})});
+
+  /* form */
+  var form=$('#leadForm'),done=$('#done'),err=$('#fErr');
+  form.addEventListener('submit',function(e){e.preventDefault();var n=form.name.value.trim(),p=form.phone.value.trim();
+    if(!n||p.replace(/\D/g,'').length<10){err.hidden=false;return}err.hidden=true;
+    var t='Заявка с сайта GrillStory\nИмя: '+n+'\nТелефон: '+p+'\nКто: '+form.role.value+'\nКонфигурация: '+form.cfg.value+(form.msg.value.trim()?'\nКомментарий: '+form.msg.value.trim():'');
+    $('#doneText').textContent=t;form.hidden=true;done.hidden=false});
+  $('#editBtn').addEventListener('click',function(){done.hidden=true;form.hidden=false});
+  $('#copyBtn').addEventListener('click',function(){var b=this,t=$('#doneText').textContent;
+    function sel(){var r=document.createRange();r.selectNodeContents($('#doneText'));var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Выделено, нажмите Ctrl+C'}
+    try{navigator.clipboard.writeText(t).then(function(){b.textContent='Скопировано'},sel)}catch(x){sel()}});
+})();
+</script>
+</body></html>
